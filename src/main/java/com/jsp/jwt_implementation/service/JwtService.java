@@ -1,11 +1,32 @@
 package com.jsp.jwt_implementation.service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
+	
+	@Value("${jwt.secret}")
+	private String secretKey;
 
-	public String generateToken() {
-		return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4gRG9lIiwicGFzc3dvcmQiOiJLYXJ0aGlrQDA1Iiwicm9sZSI6IkFkbWluIn0.J1KFe32uzR8mN9NAhJgj0ts4_5uzzBvRfUk7QoSR7O8";
+	public String generateToken(String username) {
+		return Jwts.builder()
+				.setSubject(username)
+				.setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis()+1000*60*60))
+				.signWith(getSecreteKey())
+				.compact();
+	}
+
+	private Key getSecreteKey() {
+		return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_16));
+		
 	}
 }

@@ -37,7 +37,7 @@ public class UserInfoService {
 		Authentication authentication = manager.authenticate(
 				new UsernamePasswordAuthenticationToken(userInfo.getUsername(), userInfo.getPassword()));
 		if(authentication.isAuthenticated()) {
-			return jwtService.generateToken();
+			return jwtService.generateToken(userInfo.getUsername());
 		}
 		return "Not Authenticated";
 	}
