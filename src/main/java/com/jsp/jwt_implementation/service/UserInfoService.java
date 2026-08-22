@@ -41,4 +41,12 @@ public class UserInfoService {
 		}
 		return "Not Authenticated";
 	}
+
+	public String adminVeify() {
+		return "Only Admin can access";
+	}
+
+	public String userVerify() {
+		return "Admin and User can access";
+	}
 }
